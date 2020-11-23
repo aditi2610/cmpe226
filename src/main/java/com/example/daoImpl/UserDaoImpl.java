@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -29,7 +30,6 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao{
 	
 	@Override
 	public User getUserById(int id) {
-		System.out.println("Insidde get UserDao Impl");
 		String  sql = "select * from user where id = ?"; 
 		return (User)getJdbcTemplate().queryForObject(sql, new Object[]{id}, new RowMapper<User>(){
 			@Override
@@ -41,6 +41,20 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao{
 			}
 		});
 	}
+
+	@Override
+	public ResponseEntity<?>  createUser(String name, int isAdmin, String address, int phone, String email, int totalOrders, String coupon) {
+		String sql = "INSERT INTO user " +
+				"(id, name, is_admin, address, email, total_orders, coupon) VALUES (?, ?, ?, ? , ? , ?, ?)" ;
+		User user = new User(2, name, isAdmin, address, email, totalOrders, coupon);
+	
+		getJdbcTemplate().update(sql, new Object[]{
+				user.getId(), user.getName(), user.getIsAdmin(), user.getAddress(), user.getEmail(), user.getTotalOrders(), user.getCoupon()
+		});
+		//TODO return type needs to be fixed
+		return null;
+	}
+	
 
 	
 	
