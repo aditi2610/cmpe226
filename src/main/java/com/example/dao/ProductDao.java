@@ -9,7 +9,7 @@ import com.example.model.Product;
 public interface ProductDao {
 
 	ResponseEntity<?> addProduct(String productName, String category, String size, 
-			int quanity,
+			int quantity,
 			double price, String color);
 	
 	Product viewProduct(int id);

@@ -15,7 +15,7 @@ import com.example.service.UserService;
 
 @ComponentScan("com.example") 
 @RestController
-public class Controller {
+public class UserController {
 
 	@Autowired
 	UserService userService;

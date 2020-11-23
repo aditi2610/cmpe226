@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.example.dao.ProductDao;
 import com.example.model.Product;
 import com.example.service.ProductService;
 
+@Service("productService")
 public class ProductServiceImpl implements ProductService{
 
 	@Autowired
@@ -16,9 +18,9 @@ public class ProductServiceImpl implements ProductService{
 	
 	
 	@Override
-	public ResponseEntity<?> addProduct(String productName, String category, String size, int quanity, double price,
+	public ResponseEntity<?> addProduct(String productName, String category, String size, int quantity, double price,
 			String color) {
-		 return productDao.addProduct(productName, category, size, quanity, price, color);
+		 return productDao.addProduct(productName, category, size, quantity, price, color);
 	}
 
 	@Override
@@ -27,9 +29,9 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public ResponseEntity<?> updateProduct(String productName, String category, String size, int quanity, double price,
+	public ResponseEntity<?> updateProduct(String productName, String category, String size, int quantity, double price,
 			String color) {
-		return productDao.updateProduct(productName, category, size, quanity, price, color);
+		return productDao.updateProduct(productName, category, size, quantity, price, color);
 	}
 
 	@Override

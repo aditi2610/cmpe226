@@ -8,12 +8,13 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import com.example.dao.ProductDao;
 import com.example.model.Product;
 
+@Repository
 public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
-
 	
 	@Autowired 
 	DataSource dataSource;

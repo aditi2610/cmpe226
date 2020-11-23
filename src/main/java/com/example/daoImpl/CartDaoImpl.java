@@ -6,9 +6,11 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import com.example.dao.CartDao;
 
+@Repository
 public class CartDaoImpl extends JdbcDaoSupport implements CartDao {
 
 	

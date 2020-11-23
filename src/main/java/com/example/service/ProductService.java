@@ -8,13 +8,13 @@ import com.example.model.Product;
 
 public interface ProductService {
 	ResponseEntity<?> addProduct(String productName, String category, String size, 
-			int quanity,
+			int quantity,
 			double price, String color);
 
 	Product viewProduct(int id);
 
 	ResponseEntity<?> updateProduct(String productName, String category, String size, 
-			int quanity,
+			int quantity,
 			double price, String color);
 
 	ResponseEntity<?> deleteProduct(int id);
