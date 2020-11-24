@@ -22,7 +22,8 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public ResponseEntity<?>  createUser(String name, int isAdmin,String address, int phoneNumber, String email, int totalOrders, String coupon ) {
+	public ResponseEntity<?> createUser(String name, int isAdmin, String address, 
+			String phoneNumber, String email, int totalOrders, String coupon){
 		return userDao.createUser(name, isAdmin, address, phoneNumber, email, totalOrders, coupon);
 	}
 

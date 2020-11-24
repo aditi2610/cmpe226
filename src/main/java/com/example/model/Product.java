@@ -54,6 +54,10 @@ public class Product {
 	}
 	
 	
+	public Product(){
+		
+	}
+	
 	public Product(String productName, String category, String size, int quanity,
 			double price, String color) {
 		this.productName = productName;

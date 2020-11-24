@@ -34,7 +34,7 @@ public class UserController {
 			@RequestParam(value="name",required=false) String name,
 			@RequestParam(value="isAdmin",required=false) int isAdmin,
 			@RequestParam(value="address",required=false) String address,
-			@RequestParam(value="phoneNumber",required=false) int phoneNumber,
+			@RequestParam(value="phoneNumber",required=false) String phoneNumber,
 			@RequestParam(value="email",required=false) String email,
 			@RequestParam(value="totalOrders",required=false) int totalOrders,
 			@RequestParam(value="coupon", required = false) String coupon
@@ -42,7 +42,6 @@ public class UserController {
 	{ 
 		ResponseEntity<?> res = null;
 		try {
-
 			res = userService.createUser(name, isAdmin,address, phoneNumber, email, totalOrders,coupon);
 		} catch (Exception e) {
 			e.printStackTrace();

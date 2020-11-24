@@ -14,7 +14,9 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.example.dao.UserDao;
+import com.example.mapper.UserRowMapper;
 import com.example.model.User;
+ 
 
 
 @Repository
@@ -28,33 +30,27 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao{
 	private void initialize(){
 		setDataSource(dataSource);
 	}
-	
 	@Override
 	public User getUserById(int id) {
 		String  sql = "select * from user where user_id = ?"; 
-		return (User)getJdbcTemplate().queryForObject(sql, new Object[]{id}, new RowMapper<User>(){
-			@Override
-			public User mapRow(ResultSet rs, int rwNumber) throws SQLException {
-				System.out.println( "Mapper:  " +rs.getString("name"));
-				User emp = new User();
-				emp.setName(rs.getString("name"));
-				return emp;
-			}
-		});
+		return getJdbcTemplate().queryForObject(sql, new UserRowMapper(), new Object[] {id});
 	}
 
+
 	@Override
-	public ResponseEntity<?> createUser(String name, int isAdmin, String address, int phoneNumber, String email,
+	public ResponseEntity<?> createUser(String name, int isAdmin, String address, String phoneNumber, String email,
 			int totalOrders, String coupon) {
-		String sql = "INSERT INTO user " +
-				"(user_id, name, is_admin, address, email, total_orders, coupon) VALUES (?, ?, ?, ? , ? , ?, ?)" ;
-		User user = new User(2, name, isAdmin, address, email, totalOrders, coupon);
-	
-		getJdbcTemplate().update(sql, new Object[]{
-				user.getId(), user.getName(), user.getIsAdmin(), user.getAddress(), user.getEmail(), user.getTotalOrders(), user.getCoupon()
-		});
-		//TODO return type needs to be fixed
-		return new ResponseEntity<>("New user created!", HttpStatus.CREATED);
+			System.out.println("rgher");
+			String sql = "INSERT INTO user " +
+					"(name, is_admin, address, phone_number, email, total_orders, coupon) VALUES (?, ?, ? ,? , ? , ?, ?)" ;
+			User user = new User(name, isAdmin, address, phoneNumber, email, totalOrders, coupon);	
+			getJdbcTemplate().update(sql, new Object[]{
+					user.getName(), user.getIsAdmin(), user.getAddress(), 
+					user.getPhoneNumber(), user.getEmail(), user.getTotalOrders(),
+					user.getCoupon()
+			});
+//			getJdbcTemplate().update(sql, new UsMa);
+			return new ResponseEntity<>("New user created!", HttpStatus.CREATED);
 	}
 	
 

@@ -1,7 +1,11 @@
 package com.example.model;
 
-public class User {
-	private int id;
+import java.io.Serializable;
+
+public class User implements Serializable {
+	private int userId;
+
+	private String phoneNumber;
 	private String name;
 	private int isAdmin;
 	private String email;
@@ -9,20 +13,28 @@ public class User {
 	private String coupon;
 	private String address;
 
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public int getTotalOrders() {
@@ -69,11 +81,11 @@ public class User {
 
 	}
 
-	public User(String name, int isAdmin, String address, String email, int totalOrders, String coupon) {
+	public User(String name, int isAdmin, String address, String phoneNumber, String email, int totalOrders, String coupon) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.isAdmin = isAdmin;
+		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.email = email;
 		this.totalOrders = totalOrders;
@@ -82,7 +94,7 @@ public class User {
 
 	public User(int id, String name, int isAdmin, String address, String email, int totalOrders, String coupon) {
 		super();
-		this.id = id;
+		this.userId = id;
 		this.name = name;
 		this.isAdmin = isAdmin;
 		this.address = address;
