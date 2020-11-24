@@ -31,13 +31,13 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "testAddProduct", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public ResponseEntity<?> createProduct(@RequestBody Map<String, Object> payload) {
+	public ResponseEntity<?> testCreateProduct(@RequestBody Map<String, Object> payload) {
 		System.out.println(payload);
 		return new ResponseEntity<>(payload.get(1), HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "product", method = RequestMethod.POST)
-	public ResponseEntity<?> createUser(@RequestParam(value = "productName", required = false) String productName,
+	public ResponseEntity<?> createproduct(@RequestParam(value = "productName", required = false) String productName,
 			@RequestParam(value = "category", required = false) String category,
 			@RequestParam(value = "size", required = false) String size,
 			@RequestParam(value = "quantity", required = false) int quantity,
@@ -47,26 +47,47 @@ public class ProductController {
 		try {
 
 			res = productService.addProduct(productName, category, size, quantity, price, color);
-			res.status(HttpStatus.CREATED);
 		} catch (Exception e) {
-			res.status(HttpStatus.INTERNAL_SERVER_ERROR);
+			ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
 			e.printStackTrace();
 		}
 		return res;
 	}
 
-	@RequestMapping(value = "updateProduct", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@RequestMapping(value = "product", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ResponseEntity<?> updateProduct(@RequestBody Map<String, Object> payload) {
-		
+		int productId = (int) payload.get("productId");
 		String productName = (String) payload.get("productName");
 		String category = (String) payload.get("category");
 		String size = (String) payload.get("size");
-		int quantity =(int) payload.get("quanity");
+		int quantity =(int) payload.get("quantity");
 		double price = (double) payload.get("price");
 		String color = (String)  payload.get("color");
 		
-		productService.updateProduct(productName, category, size, quantity, price, color);
-		return new ResponseEntity<>(payload.get(1), HttpStatus.OK);
+		return productService.updateProduct(productId, productName, category, size, quantity, price, color);
 	}
 
+	@RequestMapping(value = "product/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteProduct(@PathVariable("id") int id) {
+		return new ResponseEntity<>(productService.deleteProduct(id), HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "allProducts", method = RequestMethod.GET)
+	public ResponseEntity<?> viewAllProducts() {
+		return new ResponseEntity<>(productService.viewAllProducts(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "sortProduct", method = RequestMethod.GET)
+	public ResponseEntity<?> sortProducts() {
+		return new ResponseEntity<>(productService.sortProducts(), HttpStatus.OK);
+
+	}
+	
+	@RequestMapping(value = "productCategory", method = RequestMethod.GET)
+	public ResponseEntity<?> filterProducts(@RequestParam("category") String category) {
+		return new ResponseEntity<>(productService.filterProducts(category), HttpStatus.OK);
+
+	}
+	
 }

@@ -58,6 +58,16 @@ public class Product {
 		
 	}
 	
+	public Product(int productId, String productName, String category, String size, int quanity,
+			double price, String color) {
+		this.productId=productId;
+		this.productName = productName;
+		this.category = category;
+		this.size = size;
+		this.quantity = quanity;
+		this.price = price;
+		this.color= color;
+	}
 	public Product(String productName, String category, String size, int quanity,
 			double price, String color) {
 		this.productName = productName;
@@ -67,6 +77,5 @@ public class Product {
 		this.price = price;
 		this.color= color;
 	}
-	
 	
 }

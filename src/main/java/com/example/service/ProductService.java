@@ -13,7 +13,7 @@ public interface ProductService {
 
 	Product viewProduct(int id);
 
-	ResponseEntity<?> updateProduct(String productName, String category, String size, 
+	ResponseEntity<?> updateProduct(int productId, String productName, String category, String size, 
 			int quantity,
 			double price, String color);
 

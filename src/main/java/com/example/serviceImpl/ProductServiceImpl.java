@@ -29,9 +29,9 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public ResponseEntity<?> updateProduct(String productName, String category, String size, int quantity, double price,
+	public ResponseEntity<?> updateProduct(int productId, String productName, String category, String size, int quantity, double price,
 			String color) {
-		return productDao.updateProduct(productName, category, size, quantity, price, color);
+		return productDao.updateProduct(productId, productName, category, size, quantity, price, color);
 	}
 
 	@Override
