@@ -66,21 +66,19 @@ public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
 		return new ResponseEntity<>(jdbcTemplate.update(sql, new Object[] { id }), HttpStatus.OK);
 	}
 
+
 	@Override
 	public List<Product> viewAllProducts() {
-		String sql = "select * from product";
-		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product(rs.getInt("product_id"), rs.getString("name"), rs.getString("category"), rs.getString("size"),
-					rs.getInt("quantity"), rs.getDouble("price"), rs.getString("color"));
+		String sql = "select * from getAllProducts";
+		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product( rs.getString("name"),
+					rs.getDouble("price"));
 		});
-
-//		return new ResponseEntity<>(jdbcTemplate.update(sql, new Object[] { id }), HttpStatus.OK);
 	}
 
 	@Override
 	public List<Product> sortProducts() {
 		String sql = "select * from product order by price";
-		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product(rs.getInt("product_id"), rs.getString("name"), rs.getString("category"), rs.getString("size"),
-					rs.getInt("quantity"), rs.getDouble("price"), rs.getString("color"));
+		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product(rs.getString("name"), rs.getDouble("price"), rs.getString("size"));
 		});
 	}
 

@@ -58,6 +58,18 @@ public class Product {
 		
 	}
 	
+	public Product(String name, Double price) {
+		this.productName = name;
+		this.price= price;
+	}
+	
+	
+	public Product(String name, Double price, String size) {
+		this.productName = name;
+		this.price= price;
+		this.size = size;
+	}
+	 
 	public Product(int productId, String productName, String category, String size, int quanity,
 			double price, String color) {
 		this.productId=productId;

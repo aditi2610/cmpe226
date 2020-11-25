@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -14,14 +15,15 @@ import com.example.dao.CartDao;
 public class CartDaoImpl extends JdbcDaoSupport implements CartDao {
 
 	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 	@Autowired 
 	DataSource dataSource;
-	
+
 	@PostConstruct
 	private void initialize(){
 		setDataSource(dataSource);
 	}
-	
 	@Override
 	public ResponseEntity<?> addToCart(int userId, int productId, int quantity, String size, String color) {
 		// TODO Auto-generated method stub

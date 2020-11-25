@@ -36,19 +36,27 @@ public class UserController {
 			@RequestParam(value="address",required=false) String address,
 			@RequestParam(value="phoneNumber",required=false) String phoneNumber,
 			@RequestParam(value="email",required=false) String email,
-			@RequestParam(value="totalOrders",required=false) int totalOrders,
-			@RequestParam(value="coupon", required = false) String coupon
+			@RequestParam(value="coupon", required = false) String coupon, 
+			@RequestParam(value="password", required = true) String password
 			) 
-	{ 
+		{ 
+		System.out.println("gsfhfhd");
 		ResponseEntity<?> res = null;
 		try {
-			res = userService.createUser(name, isAdmin,address, phoneNumber, email, totalOrders,coupon);
+			System.out.println("inside Controller");
+			res = userService.createUser(name, isAdmin,address, phoneNumber, email,coupon, password);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return res;
 	}
 
+	
+	@RequestMapping(value="user/login" , method = RequestMethod.POST)	
+	public ResponseEntity<?> login( @RequestParam(value="email",required=true) String email, 
+			@RequestParam(value="password", required = true) String password) {		
+		return userService.login(email, password);
+	}
 
 
 }

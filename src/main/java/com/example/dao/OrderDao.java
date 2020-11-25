@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.example.model.Order;
-import com.example.model.Product;
 
 /**
  * 
@@ -13,6 +12,7 @@ import com.example.model.Product;
  *
  */
 public interface OrderDao {
+	
 	Order viewOrder(int id);
 	
 	List<Order> viewOrderHistory(int id);
@@ -24,7 +24,7 @@ public interface OrderDao {
 	 * @param id
 	 * @return
 	 */
-	ResponseEntity<?> cancelOrder(int id);
+	ResponseEntity<?> cancelOrder(int user_id, int order_id);
 	
 	/**
 	 * 

@@ -23,9 +23,21 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public ResponseEntity<?> createUser(String name, int isAdmin, String address, 
-			String phoneNumber, String email, int totalOrders, String coupon){
-		return userDao.createUser(name, isAdmin, address, phoneNumber, email, totalOrders, coupon);
+			String phoneNumber, String email, String coupon, String password){
+//		System.out.println("Original Pass: "+ password + " hashed Passs: "+ hashedPass);
+		return userDao.createUser(name, isAdmin, address, phoneNumber, email, coupon, password);
 	}
+//	
+//	private String hashPassword(String plainTextPassword){
+//		return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
+//	}
+
+	@Override
+	public ResponseEntity<?>  login(String email, String password) {
+		// TODO Auto-generated method stub
+		return userDao.login(email, password);
+	}
+
 
 
 }

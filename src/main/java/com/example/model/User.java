@@ -2,9 +2,12 @@ package com.example.model;
 
 import java.io.Serializable;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class User implements Serializable {
 	private int userId;
 
+	private String password;
 	private String phoneNumber;
 	private String name;
 	private int isAdmin;
@@ -12,6 +15,15 @@ public class User implements Serializable {
 	private int totalOrders;
 	private String coupon;
 	private String address;
+	
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public int getUserId() {
 		return userId;
@@ -81,7 +93,7 @@ public class User implements Serializable {
 
 	}
 
-	public User(String name, int isAdmin, String address, String phoneNumber, String email, int totalOrders, String coupon) {
+	public User(String name, int isAdmin, String address, String phoneNumber, String email, int totalOrders, String coupon, String password) {
 		super();
 		this.name = name;
 		this.isAdmin = isAdmin;
@@ -90,16 +102,19 @@ public class User implements Serializable {
 		this.email = email;
 		this.totalOrders = totalOrders;
 		this.coupon = coupon;
+		this.password =password;
 	}
-
-	public User(int id, String name, int isAdmin, String address, String email, int totalOrders, String coupon) {
+	
+	public User(String name, int isAdmin, String address, String phoneNumber, String email, String coupon, String password) {
 		super();
-		this.userId = id;
 		this.name = name;
 		this.isAdmin = isAdmin;
+		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.email = email;
-		this.totalOrders = totalOrders;
 		this.coupon = coupon;
+		this.password =password;
 	}
 }
+	
+	

@@ -2,13 +2,17 @@ package com.example.serviceImpl;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.example.dao.OrderDao;
 import com.example.model.Order;
+import com.example.service.OrderService;
 
-public class OrderServiceImpl implements OrderDao {
+@Service("orderService")
+public class OrderServiceImpl implements OrderService {
 
 	
 	@Autowired
@@ -22,6 +26,7 @@ public class OrderServiceImpl implements OrderDao {
 
 	@Override
 	public List<Order> viewOrderHistory(int id) {
+		System.out.println("inseide Order daoIMPL");
 		return orderDao.viewOrderHistory(id);
 	}
 
@@ -31,8 +36,9 @@ public class OrderServiceImpl implements OrderDao {
 	}
 
 	@Override
-	public ResponseEntity<?> cancelOrder(int id) {
-		return orderDao.cancelOrder(id);
+	public ResponseEntity<?> cancelOrder(int user_id, int order_id) {
+		System.out.println("Inside Order Impl");
+		return orderDao.cancelOrder(user_id, order_id);
 	}
 
 	@Override

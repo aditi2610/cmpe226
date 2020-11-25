@@ -18,9 +18,10 @@ Order viewOrder(int id);
 	/**
 	 * this is done by user and should update the status of order to cancelled
 	 * @param id
+	 * @param order_id 
 	 * @return
 	 */
-	ResponseEntity<?> cancelOrder(int id);
+	ResponseEntity<?> cancelOrder(int id, int order_id);
 	
 	/**
 	 * 

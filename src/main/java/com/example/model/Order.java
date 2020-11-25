@@ -2,28 +2,28 @@ package com.example.model;
 
 public class Order {
 	
-	int orderId;
-	int userId;
-	int totalItems;
+	Integer orderId;
+	Integer userId;
+	Integer totalItems;
 	double totalPrice;
 	String orderStatus;
 	
 	public int getOrderId() {
 		return orderId;
 	}
-	public void setOrderId(int orderId) {
+	public void setOrderId(Integer orderId) {
 		this.orderId = orderId;
 	}
 	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 	public int getTotalItems() {
 		return totalItems;
 	}
-	public void setTotalItems(int totalItems) {
+	public void setTotalItems(Integer totalItems) {
 		this.totalItems = totalItems;
 	}
 	public double getTotalPrice() {
@@ -40,12 +40,26 @@ public class Order {
 	}
 	
 	
-	public Order(int orderId, int userId, int totalItems, double totalPrice, String orderStatus) {
+	Order( int orderId, double totalPrice, String orderStatus ){
+		this.orderId = orderId;
+		this.totalPrice  = totalPrice;
+		this.orderStatus = orderStatus;
+	}
+	
+	public Order(Integer orderId, Integer userId, Integer totalItems, double totalPrice, String orderStatus) {
 		this.orderId = orderId;
 		this.userId = userId;
 		this.totalItems = totalItems;
 		this.totalPrice = totalPrice;
 		this.orderStatus = orderStatus;		
+	}
+	
+	public Order() {
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return this.orderId+ " "+ this.userId+ " "+ this.orderStatus+ " "+ this.totalPrice;
 	}
 	
 }
