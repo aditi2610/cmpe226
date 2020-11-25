@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import com.example.model.Product;
 
-public class ProductRowMapper  implements RowMapper<Product> {
+public class ProductRowMapper implements RowMapper<Product> {
 
 	@Override
 	public Product mapRow(ResultSet rs, int rowNum) throws SQLException {

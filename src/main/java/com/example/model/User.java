@@ -2,8 +2,6 @@ package com.example.model;
 
 import java.io.Serializable;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 public class User implements Serializable {
 	private int userId;
 

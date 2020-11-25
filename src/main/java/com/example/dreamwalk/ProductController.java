@@ -1,12 +1,16 @@
 package com.example.dreamwalk;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,12 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.model.Product;
 import com.example.service.ProductService;
 
+
 @ComponentScan("com.example")
 @RestController
 public class ProductController {
-
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 	@Autowired
 	ProductService productService;
+	Logger logger = LogManager.getLogger(ProductController.class);
+
 
 	@RequestMapping(value = "product/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> viewProduct(@PathVariable("id") int id) {
@@ -30,10 +38,20 @@ public class ProductController {
 		return new ResponseEntity<>(p, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "testAddProduct", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public ResponseEntity<?> testCreateProduct(@RequestBody Map<String, Object> payload) {
-		System.out.println(payload);
-		return new ResponseEntity<>(payload.get(1), HttpStatus.CREATED);
+	@RequestMapping(value = "test", method = RequestMethod.POST)
+	public List<Map<String, Object>> testCreateProduct() {
+
+//		Statement statement = getConnection().createStatement();
+//		logger.atDebug();
+        logger.trace("A TRACE Message");
+        logger.debug("A DEBUG Message");
+        logger.info("An INFO Message");
+        logger.warn("A WARN Message");
+        logger.error("An ERROR Message");
+	        return jdbcTemplate.queryForList("SELECT name FROM user where user_id =? ", "1");
+
+//		System.out.println(payload);
+//		return new ResponseEntity<>(payload.get(1), HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "product", method = RequestMethod.POST)
