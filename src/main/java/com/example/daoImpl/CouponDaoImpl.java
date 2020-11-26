@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -36,6 +37,7 @@ public class CouponDaoImpl extends JdbcDaoSupport implements CouponDao {
 		setDataSource(dataSource);
 	}
 	
+	//TODO not sure how to implement this one
 	
 	@Override
 	public List<Coupon> viewAvailableCoupons(int userId) {
@@ -51,15 +53,20 @@ public class CouponDaoImpl extends JdbcDaoSupport implements CouponDao {
 
 
 	@Override
-	public Coupon getCouponDetails(String couponId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Coupon getCouponDetails(int couponId) {
+		return jdbcTemplate.queryForObject("SELECT * FROM coupon WHERE coupon_id = ?", (rs, rowNum) -> {
+			return new Coupon(rs.getInt("coupon_id"),rs.getDouble("coupon_value"), rs.getInt("min_orders"),
+					rs.getInt("admin_id"));
+		}, new Object[] { couponId });
 	}
 
 
 	@Override
-	public ResponseEntity<?> createCoupon(double value, int minOrder) {
-		return null;
+	public ResponseEntity<?> createCoupon(double value, int minOrder, int adminId) {
+		String sql = "insert into coupon (coupon_value, min_orders, admin_id) values (?,?,?)";
+		Coupon coupon = new Coupon(value, minOrder, adminId);
+		getJdbcTemplate().update(sql, new Object[] { coupon.getValue(), coupon.getMinOrders(), coupon.getAdminId() });
+		return new ResponseEntity<>("New Coupon created!", HttpStatus.CREATED);
 	}
 
 }

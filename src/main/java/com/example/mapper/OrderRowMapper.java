@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.example.model.Order;
-import com.example.model.Product;
 
 public class OrderRowMapper  implements RowMapper<Order> {
 

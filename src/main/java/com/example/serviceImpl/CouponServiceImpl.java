@@ -28,15 +28,13 @@ public class CouponServiceImpl implements CouponService {
 	}
 
 	@Override
-	public ResponseEntity<?> createCoupon(double value, int minOrder) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<?> createCoupon(double value, int minOrder, int adminId) {
+		return couponDao.createCoupon(value, minOrder, adminId);
 	}
 
 	@Override
-	public Coupon getCouponDetails(String couponId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Coupon getCouponDetails(int couponId) {
+		return couponDao.getCouponDetails(couponId);
 	}
 
 }

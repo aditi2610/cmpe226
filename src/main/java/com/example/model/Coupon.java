@@ -2,16 +2,25 @@ package com.example.model;
 
 public class Coupon {
 
-	String couponId;
+	int couponId;
 	double value;
-	
+	int adminId; 
 	int minOrders;
+	
+	public int getAdminId() {
+		return adminId;
+	}
 
-	public String getCouponId() {
+	public void setAdminId(int adminId) {
+		this.adminId = adminId;
+	}
+
+
+	public int getCouponId() {
 		return couponId;
 	}
 
-	public void setCouponId(String couponId) {
+	public void setCouponId(int couponId) {
 		this.couponId = couponId;
 	}
 
@@ -29,6 +38,21 @@ public class Coupon {
 
 	public void setMinOrders(int minOrders) {
 		this.minOrders = minOrders;
+	}
+	
+	public Coupon( double price, int minOrder, int adminId){
+		this.value = price;
+		this.minOrders = minOrder;
+		this.adminId = adminId;
+		
+	}
+	
+	public Coupon( int couponId, double price, int minOrder, int adminId){
+		this.couponId = couponId;
+		this.value = price;
+		this.minOrders = minOrder;
+		this.adminId = adminId;
+		
 	}
 	
 }

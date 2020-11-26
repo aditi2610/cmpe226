@@ -1,7 +1,5 @@
 package com.example.daoImpl;
 
-import java.util.Map;
-
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
@@ -16,8 +14,6 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.example.dao.CartDao;
-import com.example.mapper.OrderRowMapper;
-import com.example.model.Product;
 
 @Repository
 public class CartDaoImpl extends JdbcDaoSupport implements CartDao {
@@ -36,7 +32,6 @@ public class CartDaoImpl extends JdbcDaoSupport implements CartDao {
 	
 	@Override
 	public ResponseEntity<?> addToCart(int userId, int productId, int quantity) {
-		System.out.println("Cart Dao Impl ");
 		SimpleJdbcCall jdbcCall = new 
 				SimpleJdbcCall(dataSource).withProcedureName("addToCart");
 		MapSqlParameterSource source = new MapSqlParameterSource();
@@ -46,13 +41,12 @@ public class CartDaoImpl extends JdbcDaoSupport implements CartDao {
 		source.addValue("quantity_customer", quantity);
 		SqlParameterSource in = source;
 
-		Map<String, Object> out = jdbcCall.execute(in);
+		jdbcCall.execute(in);
 		return new ResponseEntity<>("product successfully added to cart!", HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<?> updateProductInCart(int userId, int productId, int quantity) {
-		System.out.println("Cart Dao Impl ");
 		SimpleJdbcCall jdbcCall = new 
 				SimpleJdbcCall(dataSource).withProcedureName("updateProductInCart");
 		MapSqlParameterSource source = new MapSqlParameterSource();
@@ -62,14 +56,23 @@ public class CartDaoImpl extends JdbcDaoSupport implements CartDao {
 		source.addValue("quantity_customer", quantity);
 		SqlParameterSource in = source;
 
-		Map<String, Object> out = jdbcCall.execute(in);
+//		Map<String, Object> out = 
+				jdbcCall.execute(in);
 		return new ResponseEntity<>("product successfully updated to cart!", HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<?> emptyCart(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+		SimpleJdbcCall jdbcCall = new 
+				SimpleJdbcCall(dataSource).withProcedureName("emptyCart");
+		MapSqlParameterSource source = new MapSqlParameterSource();
+
+		source.addValue("user_id_customer", userId);
+		SqlParameterSource in = source;
+
+//		Map<String, Object> out = 
+				jdbcCall.execute(in);
+		return new ResponseEntity<>("Cart has no elements now!", HttpStatus.OK);
 	}
 
 }
