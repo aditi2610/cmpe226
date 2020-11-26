@@ -1,7 +1,6 @@
 package com.example.dreamwalk;
 
-import java.util.List;
-
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -22,6 +21,7 @@ public class OrderController {
 
 	@Autowired
 	OrderService orderService;
+
 /**
  * get Details of a particular Order
  * @param id
@@ -30,7 +30,7 @@ public class OrderController {
 	@RequestMapping(value="order/{id}" , method = RequestMethod.GET)	
 	public Order getOrder(@PathVariable("id") int id)
 	{ 
-		System.out.println("Reached GetOrderController");
+//		System.out.println("Reached GetOrderController");
 		return orderService.viewOrder(id);
 
 	}
@@ -42,13 +42,10 @@ public class OrderController {
 	 */
 	
 	@RequestMapping(value = "orderHistory/{id}", method = RequestMethod.GET)
-	List<Order> viewOrderHistory(@PathVariable("id") int id) {
-		List<Order> list = orderService.viewOrderHistory(id);
-		System.out.println("got ouput");
-//		for(Order o: list) {
-//			System.out.println(o.toString());
-//		}
-		return list;
+	ResponseEntity<?> viewOrderHistory(@PathVariable("id") int id) {	
+		 JSONArray jsonArray = new JSONArray(orderService.viewOrderHistory(id));
+//		 System.out.println("  " + jsonArray.toString());
+		 return new ResponseEntity<>(jsonArray.toString(), HttpStatus.OK);
 	}
 	
 	/**
@@ -71,7 +68,7 @@ public class OrderController {
 	 */
 	@RequestMapping(value = "cancelOrder/{user_id}/{order_id}", method = RequestMethod.PUT)
 	ResponseEntity<?> cancelOrder(@PathVariable("user_id") int userId, @PathVariable("order_id") int order_id ){
-		System.out.println("Inside  controller");
+//		System.out.println("Inside  controller");
 		return new ResponseEntity<>(orderService.cancelOrder(userId, order_id ), HttpStatus.OK);
 	}
 	/**

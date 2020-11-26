@@ -57,9 +57,10 @@ public class Order {
 	public Order() {
 		// TODO Auto-generated constructor stub
 	}
+	
 	@Override
 	public String toString() {
-		return this.orderId+ " "+ this.userId+ " "+ this.orderStatus+ " "+ this.totalPrice;
+		return this.orderId+ " "+ this.orderStatus+ " "+ this.totalPrice;
 	}
 	
 }

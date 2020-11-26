@@ -78,12 +78,12 @@ public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
 	@Override
 	public List<Product> sortProducts() {
 		String sql = "select * from product order by price";
-		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product(rs.getString("name"), rs.getDouble("price"), rs.getString("size"));
+			return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product(rs.getString("name"), rs.getDouble("price"), rs.getString("size"));
 		});
 	}
 
 	@Override
-	public List<Product> filterProducts(String category) {
+	public List<Product> filterProducts(String categßory) {
 		String sql = "select * from product where category like ?";
 		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product(rs.getInt("product_id"), rs.getString("name"), rs.getString("category"), rs.getString("size"),
 					rs.getInt("quantity"), rs.getDouble("price"), rs.getString("color"));
