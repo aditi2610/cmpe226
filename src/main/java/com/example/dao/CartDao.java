@@ -1,6 +1,11 @@
 package com.example.dao;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+
+import com.example.model.Order;
+import com.example.model.Product;
 
 public interface CartDao {
 
@@ -10,5 +15,7 @@ public interface CartDao {
 	
 	
 	ResponseEntity<?> emptyCart(int userId);
+	
+	List<Product> viewProductsInCart(int userId);
 	
 }

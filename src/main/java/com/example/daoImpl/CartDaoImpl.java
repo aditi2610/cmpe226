@@ -1,5 +1,8 @@
 package com.example.daoImpl;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
@@ -14,6 +17,10 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.example.dao.CartDao;
+import com.example.mapper.CartRowMapper;
+import com.example.mapper.OrderRowMapper;
+import com.example.model.Order;
+import com.example.model.Product;
 
 @Repository
 public class CartDaoImpl extends JdbcDaoSupport implements CartDao {
@@ -73,6 +80,21 @@ public class CartDaoImpl extends JdbcDaoSupport implements CartDao {
 //		Map<String, Object> out = 
 				jdbcCall.execute(in);
 		return new ResponseEntity<>("Cart has no elements now!", HttpStatus.OK);
+	}
+
+
+	@Override
+	public List<Product> viewProductsInCart(int userId) {
+		SimpleJdbcCall jdbcCall = new 
+				SimpleJdbcCall(dataSource).withProcedureName("getAllProductsFromCart")
+				.returningResultSet("cartProducts", new CartRowMapper() );
+		MapSqlParameterSource source = new MapSqlParameterSource();
+		source.addValue("userId", userId);
+		SqlParameterSource in = source;
+		Map<String, Object> out = jdbcCall.execute(in);
+		List<Product> listContacts = (List<Product>) out.get("cartProducts");
+		System.out.println("## " +listContacts.toString());
+		return listContacts;
 	}
 
 }

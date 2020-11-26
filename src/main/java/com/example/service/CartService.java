@@ -1,6 +1,10 @@
 package com.example.service;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+
+import com.example.model.Product;
 
 public interface CartService {
 
@@ -10,4 +14,5 @@ public interface CartService {
 	
 	
 	ResponseEntity<?> emptyCart(int userId);
+	public List<Product> viewProductsInCart(int userId);
 }
