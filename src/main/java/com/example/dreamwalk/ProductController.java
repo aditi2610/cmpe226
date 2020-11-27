@@ -1,5 +1,8 @@
 package com.example.dreamwalk;
 
+import java.sql.CallableStatement;
+import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,19 +44,35 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "test", method = RequestMethod.POST)
-	public List<Map<String, Object>> testCreateProduct() {
+	public Object testCreateProduct() {
 
 //		Statement statement = getConnection().createStatement();
 //		logger.atDebug();
-        logger.trace("A TRACE Message");
-        logger.debug("A DEBUG Message");
-        logger.info("An INFO Message");
-        logger.warn("A WARN Message");
-        logger.error("An ERROR Message");
-	        return jdbcTemplate.queryForList("SELECT name FROM user where user_id =? ", "1");
+//        logger.trace("A TRACE Message");
+//        logger.debug("A DEBUG Message");
+//        logger.info("An INFO Message");
+//        logger.warn("A WARN Message");
+//        logger.error("An ERROR Message");
+//	        return jdbcTemplate.queryForList("SELECT name FROM user where user_id =? ", "1");
 
 //		System.out.println(payload);
 //		return new ResponseEntity<>(payload.get(1), HttpStatus.CREATED);
+		
+		List prmtrsList = new ArrayList();
+//		 String jsonStr = JSONArray.toJSONString(prmtrsList);
+        prmtrsList.add(new SqlParameter(Types.VARCHAR));
+        prmtrsList.add(new SqlParameter(Types.VARCHAR));
+        prmtrsList.add(new SqlOutParameter("result", Types.VARCHAR));
+
+        Map<String, Object> resultData = jdbcTemplate.call(connection -> {
+            CallableStatement callableStatement = connection.prepareCall("{call getAllOrdersForACustomer(?, ?, ?, ?)}");
+            callableStatement.setString(1, "2");
+            callableStatement.registerOutParameter(2, Types.VARCHAR);
+            callableStatement.registerOutParameter(3, Types.VARCHAR);
+            callableStatement.registerOutParameter(4, Types.VARCHAR);
+            return callableStatement;
+        }, prmtrsList);
+        return resultData.get("#result-set-1");
 	}
 
 	@RequestMapping(value = "product", method = RequestMethod.POST)
@@ -94,6 +115,11 @@ public class ProductController {
 	@RequestMapping(value = "allProducts", method = RequestMethod.GET)
 	public ResponseEntity<?> viewAllProducts() {
 		return new ResponseEntity<>(productService.viewAllProducts(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "allAvailableProducts", method = RequestMethod.GET)
+	public ResponseEntity<?> viewAllAvailableProducts() {
+		return new ResponseEntity<>(productService.viewAllAvailableProducts(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "sortProduct", method = RequestMethod.GET)

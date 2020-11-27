@@ -24,4 +24,6 @@ public interface ProductDao {
 
 	List<Product> filterProducts(String category);
 
+	List<Product> viewAllAvailableProducts();
+
 }

@@ -65,8 +65,19 @@ public class OrderDaoImpl extends JdbcDaoSupport implements OrderDao {
 
 	@Override
 	public ResponseEntity<?> createOrder(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+		SimpleJdbcCall jdbcCall = new 
+				SimpleJdbcCall(dataSource).withProcedureName("createOrder")
+				.returningResultSet("orders", new OrderRowMapper() );
+		MapSqlParameterSource source = new MapSqlParameterSource();
+		source.addValue("user_id_customer", userId);
+		SqlParameterSource in = source;
+		Map<String, Object> out = jdbcCall.execute(in);
+		Boolean status = (Boolean)out.get("status");
+		if(!status) {
+			return new ResponseEntity<>((String)out.get("message"), HttpStatus.OK);
+		}
+//		System.out.println("## " +listContacts.toString());
+		return new ResponseEntity<>("Order Placed Successfully!", HttpStatus.OK);
 	}
 	/**
 	 * TODO return the updated object

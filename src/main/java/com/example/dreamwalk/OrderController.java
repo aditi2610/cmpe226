@@ -55,7 +55,7 @@ public class OrderController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "order", method = RequestMethod.POST)
+	@RequestMapping(value = "order/{id}", method = RequestMethod.POST)
 	ResponseEntity<?> createOrder(@PathVariable("id")  int userId){
 		return orderService.createOrder(userId);
 	}

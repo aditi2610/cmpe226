@@ -43,6 +43,11 @@ public class ProductServiceImpl implements ProductService{
 	public List<Product> viewAllProducts() {
 		return productDao.viewAllProducts();
 	}
+	
+	@Override
+	public List<Product> viewAllAvailableProducts() {
+		return productDao.viewAllAvailableProducts();
+	}
 
 	@Override
 	public List<Product> sortProducts() {
