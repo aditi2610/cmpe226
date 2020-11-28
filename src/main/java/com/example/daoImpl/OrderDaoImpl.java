@@ -89,7 +89,6 @@ public class OrderDaoImpl extends JdbcDaoSupport implements OrderDao {
 		String sql = "update orders set order_status = ? WHERE user_id = ? and order_id = ?";
 
 		jdbcTemplate.update(sql,orderStatus, user_id, order_id);
-		System.out.println("Order has been cancelled successfully");
 		return jdbcTemplate.queryForObject("select * from orders where user_id = ? and order_id = ?", (rs, rowNum) ->{
 			return new ResponseEntity<>(new Order(rs.getInt("order_id"), rs.getInt("user_id"), rs.getInt("total_item"),
 					rs.getDouble("total_price"), rs.getString("order_status")),

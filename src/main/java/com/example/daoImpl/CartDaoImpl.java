@@ -18,8 +18,6 @@ import org.springframework.stereotype.Repository;
 
 import com.example.dao.CartDao;
 import com.example.mapper.CartRowMapper;
-import com.example.mapper.OrderRowMapper;
-import com.example.model.Order;
 import com.example.model.Product;
 
 @Repository

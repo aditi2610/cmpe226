@@ -23,9 +23,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public ResponseEntity<?> createUser(String name, int isAdmin, String address, 
-			String phoneNumber, String email, String coupon, String password){
+			String phoneNumber, String email, String password){
 //		System.out.println("Original Pass: "+ password + " hashed Passs: "+ hashedPass);
-		return userDao.createUser(name, isAdmin, address, phoneNumber, email, coupon, password);
+		return userDao.createUser(name, isAdmin, address, phoneNumber, email, password);
 	}
 //	
 //	private String hashPassword(String plainTextPassword){

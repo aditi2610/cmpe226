@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.Product;
@@ -43,57 +44,51 @@ public class ProductController {
 		return new ResponseEntity<>(p, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "test", method = RequestMethod.POST)
-	public Object testCreateProduct() {
-
-//		Statement statement = getConnection().createStatement();
-//		logger.atDebug();
-//        logger.trace("A TRACE Message");
-//        logger.debug("A DEBUG Message");
-//        logger.info("An INFO Message");
-//        logger.warn("A WARN Message");
-//        logger.error("An ERROR Message");
-//	        return jdbcTemplate.queryForList("SELECT name FROM user where user_id =? ", "1");
-
-//		System.out.println(payload);
-//		return new ResponseEntity<>(payload.get(1), HttpStatus.CREATED);
-		
-		List prmtrsList = new ArrayList();
-//		 String jsonStr = JSONArray.toJSONString(prmtrsList);
-        prmtrsList.add(new SqlParameter(Types.VARCHAR));
-        prmtrsList.add(new SqlParameter(Types.VARCHAR));
-        prmtrsList.add(new SqlOutParameter("result", Types.VARCHAR));
-
-        Map<String, Object> resultData = jdbcTemplate.call(connection -> {
-            CallableStatement callableStatement = connection.prepareCall("{call getAllOrdersForACustomer(?, ?, ?, ?)}");
-            callableStatement.setString(1, "2");
-            callableStatement.registerOutParameter(2, Types.VARCHAR);
-            callableStatement.registerOutParameter(3, Types.VARCHAR);
-            callableStatement.registerOutParameter(4, Types.VARCHAR);
-            return callableStatement;
-        }, prmtrsList);
-        return resultData.get("#result-set-1");
-	}
+//	@RequestMapping(value = "test", method = RequestMethod.POST)
+//	public Object testCreateProduct() {
+//
+////		Statement statement = getConnection().createStatement();
+////		logger.atDebug();
+////        logger.trace("A TRACE Message");
+////        logger.debug("A DEBUG Message");
+////        logger.info("An INFO Message");
+////        logger.warn("A WARN Message");
+////        logger.error("An ERROR Message");
+////	        return jdbcTemplate.queryForList("SELECT name FROM user where user_id =? ", "1");
+//
+////		System.out.println(payload);
+////		return new ResponseEntity<>(payload.get(1), HttpStatus.CREATED);
+//		
+//		List prmtrsList = new ArrayList();
+////		 String jsonStr = JSONArray.toJSONString(prmtrsList);
+//        prmtrsList.add(new SqlParameter(Types.VARCHAR));
+//        prmtrsList.add(new SqlParameter(Types.VARCHAR));
+//        prmtrsList.add(new SqlOutParameter("result", Types.VARCHAR));
+//
+//        Map<String, Object> resultData = jdbcTemplate.call(connection -> {
+//            CallableStatement callableStatement = connection.prepareCall("{call getAllOrdersForACustomer(?, ?, ?, ?)}");
+//            callableStatement.setString(1, "2");
+//            callableStatement.registerOutParameter(2, Types.VARCHAR);
+//            callableStatement.registerOutParameter(3, Types.VARCHAR);
+//            callableStatement.registerOutParameter(4, Types.VARCHAR);
+//            return callableStatement;
+//        }, prmtrsList);
+//        return resultData.get("#result-set-1");
+//	}
 
 	@RequestMapping(value = "product", method = RequestMethod.POST)
-	public ResponseEntity<?> createproduct(@RequestParam(value = "productName", required = false) String productName,
+	public ResponseEntity<?> createproduct(
+			@RequestParam(value = "productName", required = false) String productName,
 			@RequestParam(value = "category", required = false) String category,
 			@RequestParam(value = "size", required = false) String size,
 			@RequestParam(value = "quantity", required = false) int quantity,
 			@RequestParam(value = "price", required = false) double price,
 			@RequestParam(value = "color", required = false) String color) {
-		ResponseEntity<?> res = null;
-		try {
-
-			res = productService.addProduct(productName, category, size, quantity, price, color);
-		} catch (Exception e) {
-			ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
-			e.printStackTrace();
-		}
-		return res;
+		return  productService.addProduct(productName, category, size, quantity, price, color);
 	}
 
-	@RequestMapping(value = "product", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@RequestMapping(value = "product", method = RequestMethod.PUT, 
+			consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateProduct(@RequestBody Map<String, Object> payload) {
 		int productId = (int) payload.get("productId");
 		String productName = (String) payload.get("productName");

@@ -1,14 +1,11 @@
 package com.example.serviceImpl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.dao.CouponDao;
 import com.example.model.Coupon;
-import com.example.model.User;
 import com.example.service.CouponService;
 
 @Service("couponService")
@@ -18,13 +15,13 @@ public class CouponServiceImpl implements CouponService {
 	CouponDao couponDao;
 	
 	@Override
-	public List<Coupon> viewAvailableCoupons(int userId) {
+	public ResponseEntity<?> viewAvailableCoupons(int userId) {
 		return couponDao.viewAvailableCoupons(userId);
 	}
 
 	@Override
-	public void generateCoupon(List<User> list) {
-		couponDao.generateCoupon(list);	
+	public ResponseEntity<?> generateCoupon() {
+		return couponDao.generateCoupon();	
 	}
 
 	@Override

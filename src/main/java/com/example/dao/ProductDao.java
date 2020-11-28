@@ -24,6 +24,7 @@ public interface ProductDao {
 
 	List<Product> filterProducts(String category);
 
+	/** those in stock only **/
 	List<Product> viewAllAvailableProducts();
 
 }

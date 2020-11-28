@@ -25,18 +25,20 @@ public class CouponController {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
-	public List<Coupon> viewAvailableCoupons(int userId){
-		return null;
+	@RequestMapping(value="coupon/user/{userId}" , method = RequestMethod.GET)	
+	public ResponseEntity<?> viewAvailableCoupons(@PathVariable("userId") int userId){
+		return couponService.viewAvailableCoupons(userId);
 	}
 	
-	public void generateCoupon(List<User> list) {
-		
+	@RequestMapping(value="assignCoupon" , method = RequestMethod.GET)	
+	public ResponseEntity<?> generateCoupon() {
+		return couponService.generateCoupon();
 	}
 	
 	@RequestMapping(value="coupon/{couponId}" , method = RequestMethod.GET)	
 	public Coupon getCouponDetails(@PathVariable("couponId") int couponId)
 	{ 
-		System.out.println("Reached Controller");
+//		System.out.println("Reached Controller");
 		return couponService.getCouponDetails(couponId);
 
 	}

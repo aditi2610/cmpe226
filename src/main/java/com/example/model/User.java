@@ -9,7 +9,7 @@ public class User {
 	private int isAdmin;
 	private String email;
 	private int totalOrders;
-	private String coupon;
+	private int coupon;
 	private String address;
 	
 	
@@ -77,19 +77,35 @@ public class User {
 		this.email = email;
 	}
 
-	public String getCoupon() {
+	public int getCoupon() {
 		return coupon;
 	}
 
-	public void setCoupon(String coupon) {
-		this.coupon = coupon;
+	public void setCoupon(int couponId) {
+		this.coupon = couponId;
 	}
 
 	public User() {
 
 	}
+	
 
-	public User(String name, int isAdmin, String address, String phoneNumber, String email, int totalOrders, String coupon, String password) {
+	
+	
+	public User(int userId, String name, String address, String phoneNumber, String email, int totalOrders, int coupon) {
+		super();
+		
+		this.userId = userId;
+		this.name = name;
+	
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.totalOrders = totalOrders;
+		this.coupon = coupon;
+	}
+
+	public User(String name, int isAdmin, String address, String phoneNumber, String email, int totalOrders, int coupon, String password) {
 		super();
 		this.name = name;
 		this.isAdmin = isAdmin;
@@ -101,14 +117,13 @@ public class User {
 		this.password =password;
 	}
 	
-	public User(String name, int isAdmin, String address, String phoneNumber, String email, String coupon, String password) {
+	public User(String name, int isAdmin, String address, String phoneNumber, String email, String password) {
 		super();
 		this.name = name;
 		this.isAdmin = isAdmin;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.email = email;
-		this.coupon = coupon;
 		this.password =password;
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.dao.ProductDao;
 import com.example.model.Product;
+import com.example.model.User;
 
 @Repository
 public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
@@ -31,12 +32,15 @@ public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
 	@Override
 	public ResponseEntity<?> addProduct(String productName, String category, String size, int quanity, double price,
 			String color) {
-		String sql = "insert into product (name, category, size, quantity, price, color) values (?,?,?,?,?,?)";
-		return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
-			return new ResponseEntity<>(new Product(rs.getInt("product_id"), rs.getString("name"), rs.getString("category"),
-					rs.getString("size"), rs.getInt("quantity"), rs.getDouble("price"), rs.getString("color")),
-					HttpStatus.CREATED);
-		}, new Object[] { productName, category, size, quanity, price, color });
+		String sql = "INSERT INTO product "
+				+ "(name, category, size, quantity, price, color) VALUES"
+				+ " (?, ?, ? , ? , ?, ?)";
+		Product product = new Product(productName, category, size, quanity, price, color);
+		getJdbcTemplate().update(sql, new Object[] { product.getProductName(), product.getCategory(), product.getSize(),
+				product.getQuantity(),product.getPrice(), product.getColor() });
+		//		getJdbcTemplate().update(sql, new UsMa);
+		return new ResponseEntity<>("New product created!", HttpStatus.CREATED);	
+		
 	}
 
 	@Override
@@ -52,11 +56,11 @@ public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
 			double price, String color) {
 		String sql = "update product set name=?, category=?, size=?, quantity=?, price =?,"
 				+ "color=? WHERE product_id = ?";
-		return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
-			return new ResponseEntity<>(new Product(rs.getInt("product_id"), rs.getString("name"), rs.getString("category"),
-					rs.getString("size"), rs.getInt("quantity"), rs.getDouble("price"), rs.getString("color")),
-					HttpStatus.CREATED);
-		}, new Object[] { productName, category, size, quanity, price, color, productId });
+		Product product = new Product(productName, category, size, quanity, price, color);
+		getJdbcTemplate().update(sql, new Object[] { product.getProductName(), product.getCategory(), product.getSize(),
+				product.getQuantity(),product.getPrice(), product.getColor(), product });
+		//		getJdbcTemplate().update(sql, new UsMa);
+		return new ResponseEntity<>("New product created!", HttpStatus.CREATED);	
 	}
 
 	@Override
@@ -69,34 +73,36 @@ public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
 
 	@Override
 	public List<Product> viewAllProducts() {
-		String sql = "select * from getAllProducts";
-		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product( rs.getString("name"),
-					rs.getDouble("price"));
-		});
+		String sql = "select * from product";
+	
+		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product(rs.getInt("product_id"),  rs.getString("name"),
+					rs.getString("category"), rs.getString("size"), rs.getInt("quantity"),rs.getDouble("price"), rs.getString("color"));
+	});
 	}
 	
 
 	@Override
 	public List<Product> viewAllAvailableProducts() {
-		String sql = "select * from getAllAvailableProducts";
-		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product( rs.getString("name"),
-					rs.getDouble("price"));
-		});
+		String sql = "select * from product where quantity > 0";
+		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product(rs.getInt("product_id"),  rs.getString("name"),
+				rs.getString("category"), rs.getString("size"), rs.getInt("quantity"),rs.getDouble("price"), rs.getString("color"));
+	});
 	}
 
 	@Override
 	public List<Product> sortProducts() {
 		String sql = "select * from product order by price";
-			return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product(rs.getString("name"), rs.getDouble("price"), rs.getString("size"));
+		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product(rs.getInt("product_id"),  rs.getString("name"),
+				rs.getString("category"), rs.getString("size"), rs.getInt("quantity"),rs.getDouble("price"), rs.getString("color"));
 		});
 	}
 
 	@Override
-	public List<Product> filterProducts(String categßory) {
+	public List<Product> filterProducts(String category) {
 		String sql = "select * from product where category like ?";
 		return jdbcTemplate.query(sql, (rs, rowNum) -> {return new Product(rs.getInt("product_id"), rs.getString("name"), rs.getString("category"), rs.getString("size"),
 					rs.getInt("quantity"), rs.getDouble("price"), rs.getString("color"));
-		});
+		}, category);
 	}
 
 }

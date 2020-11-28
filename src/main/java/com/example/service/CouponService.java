@@ -1,11 +1,8 @@
 package com.example.service;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 
 import com.example.model.Coupon;
-import com.example.model.User;
 
 public interface CouponService {
 
@@ -15,7 +12,7 @@ public interface CouponService {
 	 * @param userId
 	 * @return
 	 */
-	public List<Coupon> viewAvailableCoupons(int userId);
+	public ResponseEntity<?> viewAvailableCoupons(int userId);
 	
 	/**
 	 * Admin can create a coupon for all the users with value
@@ -29,7 +26,7 @@ public interface CouponService {
 	 * Generate the coupon for all the users based on their total orders
 	 * @param list
 	 */
-	public void generateCoupon(List<User> list);
+	public ResponseEntity<?> generateCoupon();
 	
 	/**
 	 * fetch the details for a coupon

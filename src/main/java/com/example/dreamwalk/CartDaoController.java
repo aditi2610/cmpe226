@@ -60,9 +60,8 @@ public class CartDaoController {
 	
 	
 	@RequestMapping(value = "cart/{id}", method = RequestMethod.GET)
-	ResponseEntity<?> viewOrderHistory(@PathVariable("id") int id) {	
+	ResponseEntity<?> viewProductsInCart(@PathVariable("id") int id) {	
 		 JSONArray jsonArray = new JSONArray(cartService.viewProductsInCart(id));
-//		 System.out.println("  " + jsonArray.toString());
 		 return new ResponseEntity<>(jsonArray.toString(), HttpStatus.OK);
 	}
 }

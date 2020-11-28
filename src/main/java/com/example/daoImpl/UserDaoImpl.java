@@ -33,13 +33,20 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 
 	@Override
 	public User getUserById(int id) {
-		String sql = "select * from user where id = ?";
+		String sql = "select * from user where user_id = ?";
 		return (User) getJdbcTemplate().queryForObject(sql, new RowMapper<User>() {
 			@Override
 			public User mapRow(ResultSet rs, int rwNumber) throws SQLException {
 				System.out.println("Mapper:  " + rs.getString("name"));
 				User emp = new User();
+				emp.setUserId(rs.getInt("user_id"));
+				emp.setPassword("******");
 				emp.setName(rs.getString("name"));
+				emp.setAddress(rs.getString("address"));
+				emp.setPhoneNumber(rs.getString("phone_number"));
+				emp.setEmail(rs.getString("email"));
+				emp.setTotalOrders(rs.getInt("total_orders"));
+				emp.setCoupon(rs.getInt("coupon"));
 				return emp;
 			}
 		}, new Object[] { id });
@@ -47,20 +54,18 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 
 	@Override
 	public ResponseEntity<?> createUser(String name, int isAdmin, String address, String phoneNumber, String email,
-			String coupon, String password) {
+			String password) {
 		System.out.println("DAO imple");
 		String sql = "INSERT INTO user "
-				+ "(name, is_admin, address, phone_number, email, coupon, password) VALUES (?, ?, ? , ? , ?, ?, ?)";
-		User user = new User(name, isAdmin, address, phoneNumber, email, coupon, password);
+				+ "(name, is_admin, address, phone_number, email, coupon, password) VALUES"
+				+ " (?, ?, ? , ? , ?, ?, MD5(?))";
+		User user = new User(name, isAdmin, address, phoneNumber, email, password);
 		getJdbcTemplate().update(sql, new Object[] { user.getName(), user.getIsAdmin(), user.getAddress(),
 				user.getPhoneNumber(), user.getEmail(), user.getCoupon(), user.getPassword() });
 		//		getJdbcTemplate().update(sql, new UsMa);
 		return new ResponseEntity<>("New user created!", HttpStatus.CREATED);
 	}
 
-	/**
-	 * TODO if the login is true.. 
-	 */
 	@Override
 	public ResponseEntity<?> login(String email, String password) {
 	

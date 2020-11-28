@@ -47,12 +47,21 @@ public class Coupon {
 		
 	}
 	
+	public Coupon( double price, int minOrder){
+		this.value = price;
+		this.minOrders = minOrder;
+	}
+	
 	public Coupon( int couponId, double price, int minOrder, int adminId){
 		this.couponId = couponId;
 		this.value = price;
 		this.minOrders = minOrder;
 		this.adminId = adminId;
 		
+	}
+
+	public Coupon() {
+
 	}
 	
 }

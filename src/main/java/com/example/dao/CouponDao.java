@@ -18,7 +18,7 @@ public interface CouponDao {
 	 * @param userId
 	 * @return
 	 */
-	public List<Coupon> viewAvailableCoupons(int userId);
+	public ResponseEntity<?> viewAvailableCoupons(int userId);
 	
 	/**
 	 * Admin can create a coupon for all the users with value
@@ -31,8 +31,9 @@ public interface CouponDao {
 	/**
 	 * Generate the coupon for all the users based on their total orders
 	 * @param list
+	 * @return 
 	 */
-	public void generateCoupon(List<User> list);
+	public ResponseEntity<?> generateCoupon();
 	
 	/**
 	 * fetch the details for a coupon

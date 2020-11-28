@@ -28,7 +28,7 @@ public class UserController {
 
 	}
 
-
+	// 0 is not admin 1 is admin
 	@RequestMapping(value="user" , method = RequestMethod.POST)	
 	public ResponseEntity<?>  createUser(
 			@RequestParam(value="name",required=false) String name,
@@ -36,19 +36,11 @@ public class UserController {
 			@RequestParam(value="address",required=false) String address,
 			@RequestParam(value="phoneNumber",required=false) String phoneNumber,
 			@RequestParam(value="email",required=false) String email,
-			@RequestParam(value="coupon", required = false) String coupon, 
 			@RequestParam(value="password", required = true) String password
 			) 
 		{ 
-		System.out.println("gsfhfhd");
-		ResponseEntity<?> res = null;
-		try {
-			System.out.println("inside Controller");
-			res = userService.createUser(name, isAdmin,address, phoneNumber, email,coupon, password);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return res;
+
+		return userService.createUser(name, isAdmin,address, phoneNumber, email, password);
 	}
 
 	

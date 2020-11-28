@@ -18,7 +18,7 @@ public class UserRowMapper implements RowMapper<User> {
 		emp.setPhoneNumber(rs.getString("phone_number"));
 		emp.setEmail(rs.getString("email"));
 		emp.setTotalOrders(rs.getInt("total_orders"));
-		emp.setCoupon(rs.getString("coupon"));
+		emp.setCoupon(rs.getInt("coupon"));
 		return emp;
 	}
 

@@ -10,7 +10,7 @@ public interface UserService {
 
 	public ResponseEntity<?> createUser(String name, int isAdmin, 
 		String address, String phoneNumber, String email,
-		String coupon, String password);
+	 String password);
 
 
 	ResponseEntity<?> login(String email, String password);
