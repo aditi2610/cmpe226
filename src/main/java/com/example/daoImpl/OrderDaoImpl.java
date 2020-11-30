@@ -1,5 +1,10 @@
 package com.example.daoImpl;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 
@@ -64,19 +69,39 @@ public class OrderDaoImpl extends JdbcDaoSupport implements OrderDao {
 	//TODO getALL order for Admin
 
 	@Override
-	public ResponseEntity<?> createOrder(int userId) {
-		SimpleJdbcCall jdbcCall = new 
-				SimpleJdbcCall(dataSource).withProcedureName("createOrder")
-				.returningResultSet("orders", new OrderRowMapper() );
-		MapSqlParameterSource source = new MapSqlParameterSource();
-		source.addValue("user_id_customer", userId);
-		SqlParameterSource in = source;
-		Map<String, Object> out = jdbcCall.execute(in);
-		Boolean status = (Boolean)out.get("status");
-		if(!status) {
-			return new ResponseEntity<>((String)out.get("message"), HttpStatus.OK);
+	public ResponseEntity<?> createOrder(int userId) throws SQLException {
+		System.out.println("here!");
+		Connection connection = null;
+		String lock = "lock tables user write;";
+		String sql = "select * from user;";
+		String unlock = "unlock tables;";
+		try {
+		    connection = DriverManager.getConnection("jdbc:mysql://dreamwalk.cxm6k5gbbru4.us-east-1.rds.amazonaws.com:3306/project2", "admin", "cmpe226kong");
+		    connection.setAutoCommit(false);  
+		    Statement stmt1=connection.createStatement();  
+		    stmt1.execute(lock);  
+		    
+		    SimpleJdbcCall jdbcCall = new 
+					SimpleJdbcCall(dataSource).withProcedureName("createOrder")
+					.returningResultSet("orders", new OrderRowMapper() );
+			MapSqlParameterSource source = new MapSqlParameterSource();
+			source.addValue("user_id_customer", userId);
+			SqlParameterSource in = source;
+			Map<String, Object> out = jdbcCall.execute(in);
+			Boolean status = (Boolean)out.get("status");
+			
+		    stmt1.execute(unlock);  
+		    if(!status) {
+				return new ResponseEntity<>((String)out.get("message"), HttpStatus.OK);
+			}
+		    connection.commit();
+
+		} catch (SQLException e) {
+		    connection.rollback();
+		    e.printStackTrace();
 		}
-//		System.out.println("## " +listContacts.toString());
+		
+		
 		return new ResponseEntity<>("Order Placed Successfully!", HttpStatus.OK);
 	}
 	/**
@@ -89,6 +114,7 @@ public class OrderDaoImpl extends JdbcDaoSupport implements OrderDao {
 		String sql = "update orders set order_status = ? WHERE user_id = ? and order_id = ?";
 
 		jdbcTemplate.update(sql,orderStatus, user_id, order_id);
+		System.out.println("Order has been cancelled successfully");
 		return jdbcTemplate.queryForObject("select * from orders where user_id = ? and order_id = ?", (rs, rowNum) ->{
 			return new ResponseEntity<>(new Order(rs.getInt("order_id"), rs.getInt("user_id"), rs.getInt("total_item"),
 					rs.getDouble("total_price"), rs.getString("order_status")),

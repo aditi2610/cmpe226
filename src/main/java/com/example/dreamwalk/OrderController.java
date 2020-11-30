@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.Order;
@@ -70,7 +69,7 @@ public class OrderController {
 	@RequestMapping(value = "cancelOrder/{user_id}/{order_id}", method = RequestMethod.PUT)
 	ResponseEntity<?> cancelOrder(@PathVariable("user_id") int userId, @PathVariable("order_id") int order_id ){
 //		System.out.println("Inside  controller");
-		return orderService.cancelOrder(userId, order_id );
+		return new ResponseEntity<>(orderService.cancelOrder(userId, order_id ), HttpStatus.OK);
 	}
 	/**
 	 * TODO consumes needs to be fixed
@@ -79,10 +78,10 @@ public class OrderController {
 	 * @param updatedStatus
 	 * @return
 	 */
-	@RequestMapping(value = "order", method = RequestMethod.PUT)
-	ResponseEntity<?> updateOrderStatus(@RequestParam("user_id") int userId,
-			@RequestParam("order_id") int orderId, @RequestParam("order_status")
-	String updatedStatus){
+	@RequestMapping(value = "order", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	ResponseEntity<?> updateOrderStatus(@PathVariable("user_id") int userId, @PathVariable("order_id") int orderId, @PathVariable("order_status") String updatedStatus){
 		return orderService.updateOrderStatus(userId, orderId, updatedStatus);
 	}
+	
+
 }

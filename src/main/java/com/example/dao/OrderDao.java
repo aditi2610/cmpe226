@@ -1,5 +1,6 @@
 package com.example.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public interface OrderDao {
 	
 	List<Order> viewOrderHistory(int id);
 	
-	ResponseEntity<?> createOrder(int userId);
+	ResponseEntity<?> createOrder(int userId) throws SQLException;
 	
 	/**
 	 * this is done by user and should update the status of order to cancelled
