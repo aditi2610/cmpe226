@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.example.model.Order;
+import com.example.model.Sales;
 
 public interface OrderService {
 
@@ -12,6 +13,8 @@ public interface OrderService {
 Order viewOrder(int id);
 	
 	List<Order> viewOrderHistory(int id);
+	Sales monthlySale();
+	Sales customerOrderHistory(int id);
 	
 	ResponseEntity<?> createOrder(int userId);
 	

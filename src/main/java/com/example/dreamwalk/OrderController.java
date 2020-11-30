@@ -82,6 +82,16 @@ public class OrderController {
 	ResponseEntity<?> updateOrderStatus(@PathVariable("user_id") int userId, @PathVariable("order_id") int orderId, @PathVariable("order_status") String updatedStatus){
 		return orderService.updateOrderStatus(userId, orderId, updatedStatus);
 	}
-	
 
+	@RequestMapping(value = "monthlySale", method = RequestMethod.GET)
+	ResponseEntity<?> monthlySale() {	
+//		 JSONArray jsonArray = new JSONArray(orderService.monthlySale());
+		 return new ResponseEntity<>(orderService.monthlySale(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "customerOrderHistory/{id}", method = RequestMethod.GET)
+	ResponseEntity<?> customerOrderHistory(@PathVariable("id") int id) {	
+//		 JSONArray jsonArray = new JSONArray(orderService.customerOrderHistory(id));
+		 return new ResponseEntity<>(orderService.customerOrderHistory(id), HttpStatus.OK);
+	}
 }

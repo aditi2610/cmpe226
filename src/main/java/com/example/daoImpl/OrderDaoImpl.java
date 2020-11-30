@@ -2,7 +2,6 @@ package com.example.daoImpl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -24,6 +23,7 @@ import org.springframework.stereotype.Repository;
 import com.example.dao.OrderDao;
 import com.example.mapper.OrderRowMapper;
 import com.example.model.Order;
+import com.example.model.Sales;
 
 @Repository
 public class OrderDaoImpl extends JdbcDaoSupport implements OrderDao {
@@ -62,18 +62,16 @@ public class OrderDaoImpl extends JdbcDaoSupport implements OrderDao {
 		SqlParameterSource in = source;
 		Map<String, Object> out = jdbcCall.execute(in);
 		List<Order> listContacts = (List<Order>) out.get("orders");
-//		System.out.println("## " +listContacts.toString());
 		return listContacts;
 	}
 
 	//TODO getALL order for Admin
 
 	@Override
-	public ResponseEntity<?> createOrder(int userId) throws SQLException {
+	public ResponseEntity<?> createOrder(int userId){
 		System.out.println("here!");
 		Connection connection = null;
 		String lock = "lock tables user write;";
-		String sql = "select * from user;";
 		String unlock = "unlock tables;";
 		try {
 		    connection = DriverManager.getConnection("jdbc:mysql://dreamwalk.cxm6k5gbbru4.us-east-1.rds.amazonaws.com:3306/project2", "admin", "cmpe226kong");
@@ -97,7 +95,6 @@ public class OrderDaoImpl extends JdbcDaoSupport implements OrderDao {
 		    connection.commit();
 
 		} catch (SQLException e) {
-		    connection.rollback();
 		    e.printStackTrace();
 		}
 		
@@ -137,4 +134,30 @@ public class OrderDaoImpl extends JdbcDaoSupport implements OrderDao {
 		}, new Object[] {user_id, order_id});
 	}
 
+	//TODO create a view for this 
+	@Override
+	public Sales monthlySale() {
+		SimpleJdbcCall jdbcCall = new 
+				SimpleJdbcCall(dataSource).withProcedureName("monthlySale")
+				.returningResultSet("orders", new OrderRowMapper() );
+		MapSqlParameterSource source = new MapSqlParameterSource();
+		SqlParameterSource in = source;
+		Map<String, Object> out = jdbcCall.execute(in);
+		Sales monthlySale = new Sales((int) out.get("items"), (double) out.get("price"));
+		return monthlySale;
+	}
+	
+	//TODO create a view for this 
+	@Override
+	public Sales customerOrderHistory(int userId) {
+		SimpleJdbcCall jdbcCall = new 
+				SimpleJdbcCall(dataSource).withProcedureName("salesByCustomer")
+				.returningResultSet("orders", new OrderRowMapper() );
+		MapSqlParameterSource source = new MapSqlParameterSource();
+		source.addValue("user_customer_id", userId);
+		SqlParameterSource in = source;
+		Map<String, Object> out = jdbcCall.execute(in);
+		Sales monthlySale = new Sales((int) out.get("items"), (double) out.get("price"));
+		return monthlySale;
+	}
 }

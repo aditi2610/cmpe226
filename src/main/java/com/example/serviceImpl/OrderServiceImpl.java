@@ -2,13 +2,13 @@ package com.example.serviceImpl;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.dao.OrderDao;
 import com.example.model.Order;
+import com.example.model.Sales;
 import com.example.service.OrderService;
 
 @Service("orderService")
@@ -44,6 +44,15 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public ResponseEntity<?> updateOrderStatus(int userId, int orderId, String updatedStatus) {
 		return orderDao.updateOrderStatus(userId, orderId, updatedStatus);
+	}
+	
+	@Override
+	public Sales monthlySale() {
+		return orderDao.monthlySale();
+	}
+	@Override
+	public Sales customerOrderHistory(int id) {
+		return orderDao.customerOrderHistory(id);
 	}
 
 }
