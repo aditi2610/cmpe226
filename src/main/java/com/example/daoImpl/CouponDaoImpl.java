@@ -88,8 +88,10 @@ public class CouponDaoImpl extends JdbcDaoSupport implements CouponDao {
 
 		Map<String, Object> out = jdbcCall.execute(in);
 		Boolean isAllowed = (Boolean)out.get("isAllowed");
+
+		int couponId = (int)out.get("couponId");
 		if(isAllowed == true)
-			return new ResponseEntity<>(new Coupon(value, minOrder, adminId), HttpStatus.OK);
+			return new ResponseEntity<>(new Coupon(couponId,value, minOrder, adminId), HttpStatus.OK);
 		else 
 			return new ResponseEntity<>("user with givenId is not Authorized to generate Coupons. ",HttpStatus.UNAUTHORIZED);
 	}

@@ -39,6 +39,8 @@ public class Coupon {
 		this.minOrders = minOrders;
 	}
 	
+
+
 	public Coupon( double price, int minOrder, int adminId){
 		this.value = price;
 		this.minOrders = minOrder;

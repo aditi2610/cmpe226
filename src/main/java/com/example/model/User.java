@@ -91,6 +91,20 @@ public class User {
 
 	
 	
+	public User(int userId, String password, String phoneNumber, String name, int isAdmin, String email,
+			int totalOrders, int coupon, String address) {
+		super();
+		this.userId = userId;
+		this.password = password;
+		this.phoneNumber = phoneNumber;
+		this.name = name;
+		this.isAdmin = isAdmin;
+		this.email = email;
+		this.totalOrders = totalOrders;
+		this.coupon = coupon;
+		this.address = address;
+	}
+
 	public User(int userId, String name, String address, String phoneNumber, String email, int totalOrders, int coupon) {
 		super();
 		
@@ -115,6 +129,7 @@ public class User {
 		this.coupon = coupon;
 		this.password =password;
 	}
+	
 	
 	public User(String name, int isAdmin, String address, String phoneNumber, String email, String password) {
 		super();

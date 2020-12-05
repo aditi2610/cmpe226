@@ -1,4 +1,8 @@
 package com.example.daoImpl;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,12 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.example.dao.ProductDao;
 import com.example.model.Product;
-import com.example.model.User;
 
 @Repository
 public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
@@ -34,10 +39,23 @@ public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
 		String sql = "INSERT INTO product "
 				+ "(name, category, size, quantity, price, color) VALUES"
 				+ " (?, ?, ? , ? , ?, ?)";
-		Product product = new Product(productName, category, size, quanity, price, color);
-		getJdbcTemplate().update(sql, new Object[] { product.getProductName(), product.getCategory(), product.getSize(),
-				product.getQuantity(),product.getPrice(), product.getColor() });
-		//		getJdbcTemplate().update(sql, new UsMa);
+		GeneratedKeyHolder holder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new PreparedStatementCreator() {
+		    @Override
+		    public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+		        PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		        statement.setString(1, productName);
+		        statement.setString(2, category);
+		        statement.setString(3, size);
+		        statement.setInt(4, quanity);
+		        statement.setDouble(5, price);
+		        statement.setString(6, color);
+		        
+		        return statement;
+		    }
+		}, holder);
+		Product product = new Product(holder.getKey().intValue() ,productName, category, size, quanity, price, color);
+		
 		return new ResponseEntity<>(product, HttpStatus.CREATED);	
 		
 	}
@@ -55,9 +73,13 @@ public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
 			double price, String color) {
 		String sql = "update product set name=?, category=?, size=?, quantity=?, price =?,"
 				+ "color=? WHERE product_id = ?";
+		
+
 		Product product = new Product(productId, productName, category, size, quanity, price, color);
+		
+		
 		getJdbcTemplate().update(sql, new Object[] {product.getProductName(), product.getCategory(), product.getSize(),
-				product.getQuantity(),product.getPrice(), product.getColor(), product });
+				product.getQuantity(),product.getPrice(), product.getColor(), productId });
 		//		getJdbcTemplate().update(sql, new UsMa);
 		return new ResponseEntity<>(product, HttpStatus.CREATED);	
 	}
