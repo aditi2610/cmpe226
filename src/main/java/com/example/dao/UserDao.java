@@ -1,5 +1,4 @@
 package com.example.dao;
-
 import org.springframework.http.ResponseEntity;
 
 import com.example.model.User;

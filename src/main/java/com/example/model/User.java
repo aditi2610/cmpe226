@@ -1,5 +1,4 @@
 package com.example.model;
-
 public class User {
 	private int userId;
 
@@ -127,5 +126,3 @@ public class User {
 		this.password =password;
 	}
 }
-	
-	

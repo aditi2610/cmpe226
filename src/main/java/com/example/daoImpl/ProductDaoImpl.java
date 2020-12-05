@@ -1,5 +1,4 @@
 package com.example.daoImpl;
-
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -39,7 +38,7 @@ public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
 		getJdbcTemplate().update(sql, new Object[] { product.getProductName(), product.getCategory(), product.getSize(),
 				product.getQuantity(),product.getPrice(), product.getColor() });
 		//		getJdbcTemplate().update(sql, new UsMa);
-		return new ResponseEntity<>("New product created!", HttpStatus.CREATED);	
+		return new ResponseEntity<>(product, HttpStatus.CREATED);	
 		
 	}
 
@@ -56,11 +55,11 @@ public class ProductDaoImpl extends JdbcDaoSupport implements ProductDao {
 			double price, String color) {
 		String sql = "update product set name=?, category=?, size=?, quantity=?, price =?,"
 				+ "color=? WHERE product_id = ?";
-		Product product = new Product(productName, category, size, quanity, price, color);
-		getJdbcTemplate().update(sql, new Object[] { product.getProductName(), product.getCategory(), product.getSize(),
+		Product product = new Product(productId, productName, category, size, quanity, price, color);
+		getJdbcTemplate().update(sql, new Object[] {product.getProductName(), product.getCategory(), product.getSize(),
 				product.getQuantity(),product.getPrice(), product.getColor(), product });
 		//		getJdbcTemplate().update(sql, new UsMa);
-		return new ResponseEntity<>("New product created!", HttpStatus.CREATED);	
+		return new ResponseEntity<>(product, HttpStatus.CREATED);	
 	}
 
 	@Override

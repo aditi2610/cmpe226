@@ -1,5 +1,4 @@
 package com.example.dreamwalk;
-
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,7 +14,7 @@ import com.example.service.CartService;
 
 @ComponentScan("com.example") 
 @RestController
-public class CartDaoController {
+public class CartController {
 
 	@Autowired
 	CartService cartService;

@@ -1,5 +1,4 @@
 package com.example.service;
-
 import org.springframework.http.ResponseEntity;
 
 import com.example.model.Coupon;

@@ -1,5 +1,4 @@
 package com.example.model;
-
 public class Coupon {
 
 	int couponId;

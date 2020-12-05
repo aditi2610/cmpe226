@@ -1,5 +1,4 @@
 package com.example.dreamwalk;
-
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;

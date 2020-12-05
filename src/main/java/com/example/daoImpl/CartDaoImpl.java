@@ -1,5 +1,4 @@
 package com.example.daoImpl;
-
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +37,8 @@ public class CartDaoImpl extends JdbcDaoSupport implements CartDao {
 	@Override
 	public ResponseEntity<?> addToCart(int userId, int productId, int quantity) {
 		SimpleJdbcCall jdbcCall = new 
-				SimpleJdbcCall(dataSource).withProcedureName("addToCart");
+				SimpleJdbcCall(dataSource).withProcedureName("addToCart")
+				.returningResultSet("myPro", new CartRowMapper());
 		MapSqlParameterSource source = new MapSqlParameterSource();
 
 		source.addValue("user_id_customer", userId);
@@ -46,8 +46,11 @@ public class CartDaoImpl extends JdbcDaoSupport implements CartDao {
 		source.addValue("quantity_customer", quantity);
 		SqlParameterSource in = source;
 
-		jdbcCall.execute(in);
-		return new ResponseEntity<>("product successfully added to cart!", HttpStatus.OK);
+		Map<String, Object> out = jdbcCall.execute(in);
+		List<Product> listContacts = (List<Product>) out.get("myPro");
+		System.out.println("size is: "+listContacts.size());
+		System.out.println("## " +listContacts.toString());
+		return new ResponseEntity<>(listContacts, HttpStatus.OK);
 	}
 
 	@Override
@@ -74,8 +77,6 @@ public class CartDaoImpl extends JdbcDaoSupport implements CartDao {
 
 		source.addValue("user_id_customer", userId);
 		SqlParameterSource in = source;
-
-//		Map<String, Object> out = 
 				jdbcCall.execute(in);
 		return new ResponseEntity<>("Cart has no elements now!", HttpStatus.OK);
 	}

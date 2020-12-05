@@ -1,5 +1,4 @@
 package com.example.model;
-
 public class Product {
 	int productId;
 	String productName;

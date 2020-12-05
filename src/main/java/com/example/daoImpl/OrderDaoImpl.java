@@ -39,19 +39,15 @@ public class OrderDaoImpl extends JdbcDaoSupport implements OrderDao {
 	private void initialize(){
 		setDataSource(dataSource);
 	}
-	// customer order details
-	// the order passed is not valid
 
 	@Override
 	public Order viewOrder(int id) {	
-//		System.out.println("viewing order with id: "+ id);
 		return jdbcTemplate.queryForObject("SELECT * FROM orders WHERE order_id = ?", (rs, rowNum) -> {
 			return new Order(rs.getInt("order_id"), rs.getInt("user_id"), rs.getInt("total_item"),
 					rs.getDouble("total_price"), rs.getString("order_status"));
 		}, new Object[] { id });
 	}
 
-	//TODO create a view for this 
 	@Override
 	public List<Order> viewOrderHistory(int userId) {
 		SimpleJdbcCall jdbcCall = new 
@@ -64,8 +60,6 @@ public class OrderDaoImpl extends JdbcDaoSupport implements OrderDao {
 		List<Order> listContacts = (List<Order>) out.get("orders");
 		return listContacts;
 	}
-
-	//TODO getALL order for Admin
 
 	@Override
 	public ResponseEntity<?> createOrder(int userId){
@@ -97,16 +91,11 @@ public class OrderDaoImpl extends JdbcDaoSupport implements OrderDao {
 		} catch (SQLException e) {
 		    e.printStackTrace();
 		}
-		
-		
 		return new ResponseEntity<>("Order Placed Successfully!", HttpStatus.OK);
 	}
-	/**
-	 * TODO return the updated object
-	 */
+	
 	@Override
 	public ResponseEntity<?> cancelOrder(int user_id, int order_id) {
-//		System.out.println("Inside OrderDao IMPL user_id " + user_id + " order_id " + order_id);
 		String orderStatus = "Cancelled";
 		String sql = "update orders set order_status = ? WHERE user_id = ? and order_id = ?";
 

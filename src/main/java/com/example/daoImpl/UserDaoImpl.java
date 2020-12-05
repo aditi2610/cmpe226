@@ -1,5 +1,4 @@
 package com.example.daoImpl;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
@@ -53,7 +52,8 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 	}
 
 	@Override
-	public ResponseEntity<?> createUser(String name, int isAdmin, String address, String phoneNumber, String email,
+	public ResponseEntity<?> createUser(String name, int isAdmin, String address, 
+			String phoneNumber, String email,
 			String password) {
 		System.out.println("DAO imple");
 		String sql = "INSERT INTO user "
@@ -62,8 +62,7 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 		User user = new User(name, isAdmin, address, phoneNumber, email, password);
 		getJdbcTemplate().update(sql, new Object[] { user.getName(), user.getIsAdmin(), user.getAddress(),
 				user.getPhoneNumber(), user.getEmail(), user.getCoupon(), user.getPassword() });
-		//		getJdbcTemplate().update(sql, new UsMa);
-		return new ResponseEntity<>("New user created!", HttpStatus.CREATED);
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	}
 
 	@Override
@@ -81,7 +80,7 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 			Boolean valid = (Boolean)out.get("validated");
 			if(valid)
 				
-				return new ResponseEntity<>("User succesfully logged in!", HttpStatus.OK);
+				return new ResponseEntity<>("You have logged in using "+email, HttpStatus.OK);
 			else
 				return new ResponseEntity<>("Password Authenticatio failed", HttpStatus.UNAUTHORIZED);
 	}
